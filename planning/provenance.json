@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-02",
+  "generator": "Codex assistant in the project conversation",
+  "model_identifier": "not recorded",
+  "generation_method": "The assistant read the installed AIDRIN skill, metric reference, and aidrin list output, then authored the saved suggestions in this session. No separate model API was called by the demo.",
+  "reference_method": "The assistant authored the case checklists before saving the suggestions, but had access to those checklists during generation.",
+  "independent_review": false,
+  "blinded": false,
+  "patient_rows_supplied": false,
+  "readiness_metrics_executed": false,
+  "hash_normalization": "CRLF line endings are converted to LF before hashing",
+  "files_sha256": {
+    "cases.json": "31f64db59f11354da0179ec3e0c48b8214c6a0f34f0dab38cc485e4037bb84f8",
+    "reference.json": "3101a80e3a863c73b189eaf4062bcec096151df801d536133f26c00980f55cfb",
+    "catalogue.json": "dc1f8af247dfcf3af4ddf59fa88c56384c4fa67283db56d8d2a717d4512fe1e9",
+    "recorded_suggestions.json": "3a67a142d23f2cae151e63661174da4db7d41307c040ee55c4b1aeaaa3965a10"
+  }
+}

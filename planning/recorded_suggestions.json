@@ -1,0 +1,93 @@
+[
+  {
+    "case_id": "quality", "status": "proposed", "approval_required": true,
+    "checks": [
+      {"metric": "completeness", "arguments": {}, "reason": "Measure missing entries, including BMI."},
+      {"metric": "duplicity", "arguments": {}, "reason": "Check the repeated rows described in the summary."},
+      {"metric": "outliers", "arguments": {}, "reason": "Flag unusual numeric values for review."},
+      {"metric": "constant-feature-count", "arguments": {}, "reason": "The site column is reported to be constant."},
+      {"metric": "correlations", "arguments": {"columns": ["age", "bmi"]}, "reason": "Explore associations between numeric features."}
+    ],
+    "questions": [], "unsupported_requests": [],
+    "notes": ["These are proposed checks. Summary facts do not establish that the dataset is ready, and no checks have run."]
+  },
+  {
+    "case_id": "renamed_target", "status": "proposed", "approval_required": true,
+    "checks": [
+      {"metric": "completeness", "arguments": {}, "reason": "Check for missing entries before training."},
+      {"metric": "duplicity", "arguments": {}, "reason": "Identify repeated records."},
+      {"metric": "outliers", "arguments": {}, "reason": "Inspect unusual numeric feature values."},
+      {"metric": "class-imbalance", "arguments": {"target-column": "return_30d"}, "reason": "Only 30 of the 600 labels are positive; use the confirmed target name."},
+      {"metric": "feature-relevance", "arguments": {"categorical-columns": ["site"], "numerical-columns": ["age", "bmi"], "target-column": "return_30d"}, "reason": "Explore feature associations with the confirmed outcome."},
+      {"metric": "correlations", "arguments": {"columns": ["age", "bmi", "site"]}, "reason": "Check feature associations and possible redundancy."}
+    ],
+    "questions": [], "unsupported_requests": [],
+    "notes": ["Feature associations are exploratory, not evidence of causation or a final readiness decision. Human approval is still needed."]
+  },
+  {
+    "case_id": "unclear_target", "status": "needs_clarification", "approval_required": true,
+    "checks": [
+      {"metric": "completeness", "arguments": {}, "reason": "Missing-value checks do not require choosing a target."},
+      {"metric": "duplicity", "arguments": {}, "reason": "Duplicate checks can be proposed without resolving the label role."},
+      {"metric": "outliers", "arguments": {}, "reason": "Inspect numeric values without treating either binary column as the target."},
+      {"metric": "correlations", "arguments": {"columns": ["age", "bmi"]}, "reason": "Limit exploratory associations to the stated numeric features."}
+    ],
+    "questions": [{"role": "target", "question": "Which column is the prediction target: outcome or event? Is the other available before prediction, or should it be excluded?"}],
+    "unsupported_requests": [],
+    "notes": ["Do not propose target-dependent checks until the outcome role is confirmed. The name outcome alone is insufficient."]
+  },
+  {
+    "case_id": "group_representation", "status": "proposed", "approval_required": true,
+    "checks": [
+      {"metric": "completeness", "arguments": {}, "reason": "Missing labels or group values could affect the comparison."},
+      {"metric": "duplicity", "arguments": {}, "reason": "Repeated records could distort subgroup proportions."},
+      {"metric": "outliers", "arguments": {}, "reason": "Include the skill's quality baseline."},
+      {"metric": "class-imbalance", "arguments": {"target-column": "recurrence"}, "reason": "Measure balance of the confirmed outcome labels."},
+      {"metric": "statistical-rates", "arguments": {"target-column": "recurrence", "sensitive-attribute-column": "sex"}, "reason": "Compare outcome-label distributions between the confirmed groups."},
+      {"metric": "representation-rate", "arguments": {"columns": ["sex"]}, "reason": "Check demographic representation, including the group with 35 rows."}
+    ],
+    "questions": [], "unsupported_requests": [],
+    "notes": ["Statistical rates describe labels, not model-output fairness. Different group outcome rates do not by themselves establish unfairness."]
+  },
+  {
+    "case_id": "privacy_roles_missing", "status": "needs_clarification", "approval_required": true,
+    "checks": [
+      {"metric": "completeness", "arguments": {}, "reason": "Start with basic missing-value information."},
+      {"metric": "duplicity", "arguments": {}, "reason": "Include the quality baseline."},
+      {"metric": "outliers", "arguments": {}, "reason": "Review unusual numeric values before a sharing assessment."},
+      {"metric": "hipaa-compliance", "arguments": {"columns": ["record_id", "age", "zipcode", "diagnosis"]}, "reason": "Propose a pattern-based identifier scan as a lead for manual review."}
+    ],
+    "questions": [{"role": "quasi_identifiers", "question": "Please confirm the quasi-identifiers, whether age or ZIP is generalized, and what outside information the recipient could have. Have we missed indirect identifiers?"}],
+    "unsupported_requests": [],
+    "notes": ["Hold quasi-identifier-dependent checks until roles are confirmed. The HIPAA-named metric is a pattern scan, not a compliance certification. No privacy guarantee follows from this plan."]
+  },
+  {
+    "case_id": "hourly_sensor", "status": "proposed", "approval_required": true,
+    "checks": [
+      {"metric": "completeness", "arguments": {}, "reason": "Check missing values in stored rows."},
+      {"metric": "duplicity", "arguments": {}, "reason": "Check repeated rows."},
+      {"metric": "outliers", "arguments": {}, "reason": "Flag unusual numeric readings for review."},
+      {"metric": "temporal-completeness", "arguments": {"timestamp-column": "observed_at", "frequency": "h"}, "reason": "Check missing intervals using the confirmed hourly schedule and timestamp."}
+    ],
+    "questions": [], "unsupported_requests": [],
+    "notes": ["Cell completeness cannot detect an absent row. Temporal completeness addresses gaps in the expected schedule."]
+  },
+  {
+    "case_id": "unsupported_calibration", "status": "unsupported", "approval_required": true,
+    "checks": [
+      {"metric": "completeness", "arguments": {}, "reason": "Check whether the stored prediction, outcome, and group fields have missing entries."},
+      {"metric": "duplicity", "arguments": {}, "reason": "Identify repeated records in the supplied table."},
+      {"metric": "outliers", "arguments": {}, "reason": "Propose the baseline numeric check; probability bounds also need explicit validation."}
+    ],
+    "questions": [], "unsupported_requests": ["subgroup_ece", "subgroup_brier"],
+    "notes": ["Subgroup ECE and Brier are absent from the captured built-in catalogue. These baseline checks do not answer the calibration request. A reviewed custom metric or the existing APPFL calibration work could be considered separately. Do not generate or execute a custom module automatically."]
+  },
+  {
+    "case_id": "image_manifest", "status": "proposed", "approval_required": true,
+    "checks": [
+      {"metric": "file-reference-validation", "arguments": {"path-targets": ["image_path"]}, "reason": "The user requested only file-reference validation, and the path column is confirmed."}
+    ],
+    "questions": [], "unsupported_requests": [],
+    "notes": ["This checks referenced files on the execution host, not image pixels or model readiness. Relative paths use the manifest directory. No references have been accessed in this planning demo."]
+  }
+]

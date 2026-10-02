@@ -1,0 +1,59 @@
+[
+  {
+    "id": "quality",
+    "intent": "Check the general quality of a synthetic hospital table before exploring it. No model or target has been chosen.",
+    "columns": {"age": "numeric", "bmi": "numeric", "site": "categorical"},
+    "description": "The table has 1000 rows. Some BMI values are missing, some rows repeat, and the site column is constant. These are synthetic summary facts, not patient rows.",
+    "confirmed_roles": {}
+  },
+  {
+    "id": "renamed_target",
+    "intent": "Assess data for training a binary readmission classifier.",
+    "columns": {"age": "numeric", "bmi": "numeric", "site": "categorical", "return_30d": "binary"},
+    "description": "There are 600 rows and 30 positive labels. Age, BMI, and site are candidate features. The user has confirmed that return_30d is the outcome, despite its unusual name.",
+    "confirmed_roles": {"target": "return_30d"}
+  },
+  {
+    "id": "unclear_target",
+    "intent": "Assess data for training a binary clinical classifier.",
+    "columns": {"age": "numeric", "bmi": "numeric", "outcome": "binary", "event": "binary"},
+    "description": "Both outcome and event contain binary values. The user has not said which is the prediction target or whether either is a usable feature.",
+    "confirmed_roles": {}
+  },
+  {
+    "id": "group_representation",
+    "intent": "Check outcome-label balance and demographic representation before training. Do not assess model-output fairness.",
+    "columns": {"age": "numeric", "sex": "categorical", "recurrence": "binary"},
+    "description": "There are 500 rows. One demographic group has 35 rows. The user has confirmed recurrence as the outcome and sex as the group attribute.",
+    "confirmed_roles": {"target": "recurrence", "sensitive_attribute": "sex"}
+  },
+  {
+    "id": "privacy_roles_missing",
+    "intent": "Explore privacy risks before sharing a synthetic clinical table externally.",
+    "columns": {"record_id": "identifier", "age": "numeric", "zipcode": "categorical", "diagnosis": "categorical"},
+    "description": "Diagnosis is a confirmed sensitive column and record_id is an identifier. The user has not confirmed the quasi-identifiers, whether age and ZIP are generalized, or what other information a recipient may know.",
+    "confirmed_roles": {"id": "record_id", "sensitive_column": "diagnosis"}
+  },
+  {
+    "id": "hourly_sensor",
+    "intent": "Check for missing hourly observations in a synthetic sensor dataset.",
+    "columns": {"observed_at": "datetime", "temperature": "numeric"},
+    "description": "The expected interval is one hour. The user confirms observed_at as the timestamp column. Missing timestamps matter even if every stored row has a temperature value.",
+    "confirmed_roles": {"timestamp": "observed_at"},
+    "confirmed_settings": {"frequency": "h"}
+  },
+  {
+    "id": "unsupported_calibration",
+    "intent": "Calculate subgroup ECE and Brier scores from stored binary predictions using built-in AIDRIN metrics.",
+    "columns": {"predicted_risk": "probability", "outcome": "binary", "sex": "categorical"},
+    "description": "Predictions are from held-out data. The user confirms the probability, outcome, and group columns. Check the actual installed catalogue before claiming the requested metrics exist.",
+    "confirmed_roles": {"predictions": "predicted_risk", "target": "outcome", "sensitive_attribute": "sex"}
+  },
+  {
+    "id": "image_manifest",
+    "intent": "Only check whether image-file references in a manifest are valid. Do not assess image quality or broader readiness.",
+    "columns": {"image_path": "path", "label": "binary"},
+    "description": "The user confirms image_path as the path column. Relative paths are resolved from the manifest directory on the execution host. No image pixels or patient rows are supplied.",
+    "confirmed_roles": {"path_targets": ["image_path"]}
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "quality": {
+    "status": "proposed",
+    "required_metrics": ["completeness", "duplicity", "outliers", "constant-feature-count"],
+    "required_questions": [],
+    "expected_arguments": {}
+  },
+  "renamed_target": {
+    "status": "proposed",
+    "required_metrics": ["completeness", "duplicity", "outliers", "class-imbalance", "feature-relevance", "correlations"],
+    "required_questions": [],
+    "expected_arguments": {"class-imbalance": {"target-column": "return_30d"}, "feature-relevance": {"target-column": "return_30d", "categorical-columns": ["site"], "numerical-columns": ["age", "bmi"]}}
+  },
+  "unclear_target": {
+    "status": "needs_clarification",
+    "required_metrics": ["completeness", "duplicity", "outliers"],
+    "required_questions": ["target"],
+    "forbidden_metrics": ["class-imbalance", "feature-relevance", "statistical-rates"],
+    "expected_arguments": {}
+  },
+  "group_representation": {
+    "status": "proposed",
+    "required_metrics": ["completeness", "duplicity", "outliers", "class-imbalance", "statistical-rates", "representation-rate"],
+    "required_questions": [],
+    "expected_arguments": {"class-imbalance": {"target-column": "recurrence"}, "statistical-rates": {"target-column": "recurrence", "sensitive-attribute-column": "sex"}, "representation-rate": {"columns": ["sex"]}}
+  },
+  "privacy_roles_missing": {
+    "status": "needs_clarification",
+    "required_metrics": ["completeness", "duplicity", "outliers"],
+    "required_questions": ["quasi_identifiers"],
+    "forbidden_metrics": ["k-anonymity", "l-diversity", "t-closeness", "entropy-risk", "single-attribute-risk", "multiple-attribute-risk", "differential-privacy"],
+    "expected_arguments": {}
+  },
+  "hourly_sensor": {
+    "status": "proposed",
+    "required_metrics": ["completeness", "duplicity", "outliers", "temporal-completeness"],
+    "required_questions": [],
+    "expected_arguments": {"temporal-completeness": {"timestamp-column": "observed_at", "frequency": "h"}}
+  },
+  "unsupported_calibration": {
+    "status": "unsupported",
+    "required_metrics": ["completeness", "duplicity", "outliers"],
+    "required_questions": [],
+    "required_unsupported": ["subgroup_ece", "subgroup_brier"],
+    "expected_arguments": {}
+  },
+  "image_manifest": {
+    "status": "proposed",
+    "required_metrics": ["file-reference-validation"],
+    "allowed_metrics": ["file-reference-validation"],
+    "required_questions": [],
+    "expected_arguments": {"file-reference-validation": {"path-targets": ["image_path"]}}
+  }
+}

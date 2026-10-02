@@ -1,0 +1,210 @@
+{
+  "aidrin_version": "2026.9.1",
+  "catalogue_source": "aidrin list",
+  "skill_source": "aidrin/skill/SKILL.md in the installed distribution",
+  "hash_normalization": "CRLF line endings are converted to LF before hashing",
+  "skill_sha256": "1371ba8581dbd4f4920754a0b931a1ea4be8a1fafcaf163f8f9f7d593d3499fb",
+  "metrics_reference_sha256": "2fe7df0ac00b832d4c8e4de9b9b5f9eb0c7148268f4fa77e09bd2d745c2a4952",
+  "metrics": {
+    "data-quality": [
+      {
+        "name": "completeness",
+        "description": "Column completeness scores and overall completeness.",
+        "required_args": []
+      },
+      {
+        "name": "duplicity",
+        "description": "Dataset duplicates ratio.",
+        "required_args": []
+      },
+      {
+        "name": "outliers",
+        "description": "Outlier proportions for numerical columns.",
+        "required_args": []
+      },
+      {
+        "name": "row-level-completeness",
+        "description": "Percentage of rows where every required column is non-null.",
+        "required_args": [
+          "required-columns"
+        ]
+      },
+      {
+        "name": "duplicity-by-features",
+        "description": "Duplicate rows computed using only the selected feature columns.",
+        "required_args": [
+          "duplicate-columns"
+        ]
+      },
+      {
+        "name": "feature-coverage-ratio",
+        "description": "Percentage of features whose non-null rate meets a threshold.",
+        "required_args": [
+          "threshold"
+        ]
+      },
+      {
+        "name": "temporal-completeness",
+        "description": "Percentage of expected time intervals present in the data.",
+        "required_args": [
+          "timestamp-column",
+          "frequency"
+        ]
+      },
+      {
+        "name": "null-count-trend",
+        "description": "Null counts grouped by a batch column, to spot quality regressions.",
+        "required_args": [
+          "batch-column",
+          "target-columns"
+        ]
+      },
+      {
+        "name": "outliers-custom",
+        "description": "Flags values that fail user-provided valid-value range, regex, and compound rules.",
+        "required_args": [
+          "rules-json"
+        ]
+      },
+      {
+        "name": "file-reference-validation",
+        "description": "Validates selected dataset values as references to files on this host.",
+        "required_args": [
+          "path-targets"
+        ]
+      }
+    ],
+    "data-structure": [
+      {
+        "name": "constant-feature-count",
+        "description": "Count and list of columns with a single distinct non-null value.",
+        "required_args": []
+      },
+      {
+        "name": "max-pairwise-correlation",
+        "description": "Strongest absolute pairwise correlation between features.",
+        "required_args": []
+      },
+      {
+        "name": "skewness",
+        "description": "Per-feature skewness (distribution asymmetry).",
+        "required_args": []
+      },
+      {
+        "name": "kurtosis",
+        "description": "Per-feature excess kurtosis (tail heaviness).",
+        "required_args": []
+      },
+      {
+        "name": "variable-unit-validation",
+        "description": "Audit unit metadata for every logical variable and apply an optional canonical sidecar.",
+        "required_args": []
+      }
+    ],
+    "impact-of-data-on-AI": [
+      {
+        "name": "correlations",
+        "description": "Categorical and numerical correlation matrices.",
+        "required_args": [
+          "columns"
+        ]
+      },
+      {
+        "name": "feature-relevance",
+        "description": "Feature relevance to target.",
+        "required_args": [
+          "categorical-columns",
+          "numerical-columns",
+          "target-column"
+        ]
+      }
+    ],
+    "fairness-and-bias": [
+      {
+        "name": "class-imbalance",
+        "description": "Class imbalance degree.",
+        "required_args": [
+          "target-column"
+        ]
+      },
+      {
+        "name": "statistical-rates",
+        "description": "Statistical rates across sensitive groups.",
+        "required_args": [
+          "target-column",
+          "sensitive-attribute-column"
+        ]
+      },
+      {
+        "name": "representation-rate",
+        "description": "Representation rate ratios for categorical values.",
+        "required_args": [
+          "columns"
+        ]
+      }
+    ],
+    "data-governance": [
+      {
+        "name": "k-anonymity",
+        "description": "k-anonymity score.",
+        "required_args": [
+          "quasi-identifiers"
+        ]
+      },
+      {
+        "name": "l-diversity",
+        "description": "l-diversity score.",
+        "required_args": [
+          "quasi-identifiers",
+          "sensitive-column"
+        ]
+      },
+      {
+        "name": "t-closeness",
+        "description": "t-closeness score.",
+        "required_args": [
+          "quasi-identifiers",
+          "sensitive-column"
+        ]
+      },
+      {
+        "name": "entropy-risk",
+        "description": "Entropy risk score.",
+        "required_args": [
+          "quasi-identifiers"
+        ]
+      },
+      {
+        "name": "single-attribute-risk",
+        "description": "Single attribute Markov-model risk scores.",
+        "required_args": [
+          "id-column",
+          "eval-columns"
+        ]
+      },
+      {
+        "name": "multiple-attribute-risk",
+        "description": "Multiple attribute Markov-model risk scores.",
+        "required_args": [
+          "id-column",
+          "eval-columns"
+        ]
+      },
+      {
+        "name": "differential-privacy",
+        "description": "Differentially private noise statistics for selected columns.",
+        "required_args": [
+          "columns",
+          "epsilon"
+        ]
+      },
+      {
+        "name": "hipaa-compliance",
+        "description": "Scan columns for HIPAA-regulated PHI (SSN, email, phone, IP, URLs, medical IDs, postal codes).",
+        "required_args": [
+          "columns"
+        ]
+      }
+    ]
+  }
+}
