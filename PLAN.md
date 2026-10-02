@@ -6,7 +6,7 @@ This is a starting proposal for discussion with the AIDRIN and APPFL teams. It d
 
 ## Current demo
 
-The [planning demonstration](planning/README.md) records AIDRIN-guided assistant suggestions for eight synthetic descriptions and compares them with example checklists. The same assistant session produced both, so it is an unblinded worked example. A separate run with independently reviewed references is still needed before reporting planner accuracy. There is no standalone agent generating APPFL configurations yet.
+The [planning demonstration](README.md) records AIDRIN-guided assistant suggestions for eight synthetic descriptions and compares them with example checklists. The same assistant session produced both, so it is an unblinded worked example. A separate run with independently reviewed references is still needed before reporting planner accuracy. There is no standalone agent generating APPFL configurations yet.
 
 ## Possible workflow
 
