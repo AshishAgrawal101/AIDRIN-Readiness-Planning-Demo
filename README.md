@@ -1,6 +1,6 @@
 # AIDRIN readiness planning demo
 
-Mr. Li suggested exploring whether AIDRIN could help APPFL choose data-readiness checks for new datasets. This demo focuses on choosing the checks before connecting them to APPFL.
+This demo focuses on choosing checks before connecting them to APPFL.
 
 The [planning examples](planning/README.md) cover eight synthetic dataset descriptions. The saved suggestions were produced in a Codex session using AIDRIN's official skill and installed metric catalogue. They include reasons for each check and questions when column roles are unclear.
 
