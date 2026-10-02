@@ -2,3 +2,5 @@ output/
 __pycache__/
 .venv/
 .uv-cache/
+.env
+.env.*

@@ -6,7 +6,9 @@ This is a starting proposal for discussion with the AIDRIN and APPFL teams. It d
 
 ## Current demo
 
-The [planning demonstration](README.md) records AIDRIN-guided assistant suggestions for eight synthetic descriptions and compares them with example checklists. The same assistant session produced both, so it is an unblinded worked example. A separate run with independently reviewed references is still needed before reporting planner accuracy. There is no standalone agent generating APPFL configurations yet.
+The [planning demonstration](README.md) includes saved AIDRIN-guided suggestions for eight synthetic descriptions and a Gemini planner that can generate new suggestions at runtime. The new runner validates plans and compares them with the example checklists. It does not run metrics or create APPFL configurations. The live API path still needs a run with a configured key.
+
+The same assistant session produced the saved plans and reference checklists, so the original recording is an unblinded worked example. Independently reviewed references are still needed before reporting planner accuracy. The Gemini runner reads those references only after generation, but they have not been reviewed by a separate researcher.
 
 ## Possible workflow
 
