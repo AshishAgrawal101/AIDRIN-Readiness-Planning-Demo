@@ -1,44 +1,19 @@
 # Proposed AIDRIN and APPFL integration
 
-Different datasets need different readiness checks, and someone currently has to decide which checks to use or write a custom one. [APPFL supports built-in checks and custom CADRE modules](https://appfl.ai/en/stable/tutorials/examples_dr_integration.html). [AIDRIN's skill](https://aidrin.readthedocs.io/en/latest/aidrin_skill.html) helps an assistant inspect a dataset, choose metrics, confirm column roles, and explain the results. The idea is to explore how that workflow could help people set up APPFL readiness reports with less manual work.
+The idea is to use [AIDRIN's guidance](https://aidrin.readthedocs.io/en/latest/aidrin_skill.html) to help choose readiness checks for new datasets, then let [APPFL](https://appfl.ai/en/stable/tutorials/examples_dr_integration.html) run an approved plan on each client's data.
 
-This is a starting proposal for discussion with the AIDRIN and APPFL teams. It describes work that could be shared, rather than a project one person would build alone. The scope and responsibilities have not been agreed on yet.
+This is a shared-work proposal. The AIDRIN and APPFL teams would help decide the scope and responsibilities, starting with a review of the [current demo](README.md) and its limited [results](RESULTS.md).
 
-## Current demo
+## Proposed workflow
 
-The [planning demonstration](README.md) uses Gemini with AIDRIN's official skill and metric catalogue to suggest checks for synthetic dataset descriptions. The runner validates plans and compares them with checklists fixed before generation. The [results](RESULTS.md) record three live runs across twelve descriptions, including API failures and rejected plans. It does not run metrics or create APPFL configurations.
+Start with synthetic tabular data. Give the assistant the task, column names and types, and confirmed roles such as the outcome column, so it can suggest checks without patient rows and ask about missing roles.
 
-The same assistant session produced the saved plans and reference checklists, so the original recording is an unblinded worked example. Independently reviewed references are still needed before reporting planner accuracy. The Gemini runner reads those references only after generation, but they have not been reviewed by a separate researcher.
+A small adapter would check the suggestions and turn supported checks into APPFL settings, with a person approving the plan before clients receive it. Any new metric would need separate review and tests before use, and generated code would never be sent to clients to run automatically.
 
-## Possible workflow
+Clients would calculate approved checks locally, and the server would report results and failures. Before treating AIDRIN and APPFL metrics as equivalent, we would check their formulas and inputs, and separately review the privacy of any shared summaries.
 
-First, the planning assistant would receive a description of a synthetic dataset. That description would include the kind of task, its data format, column names and types when relevant, and any roles a person has confirmed, such as the outcome column. The first experiments could use descriptions without patient rows. AIDRIN's normal workflow inspects sample statistics as well, so the collaborators would need to decide what information is necessary for useful suggestions and what is appropriate to share.
+## Next steps together
 
-The assistant would use AIDRIN's existing metric guidance to suggest checks and explain why they fit the data. Its answer would name the required inputs and distinguish checks APPFL already supports from checks that would need a new implementation. An initial scope could be tabular binary-classification data, with another data type chosen together after reviewing the first results.
+I could work on prototypes and synthetic tests. AIDRIN collaborators could review the checklists and advise on the existing tools, while APPFL collaborators could help choose the adapter's place in the framework.
 
-Next, a small adapter would turn the suggestion into a structured plan. It would reject unknown checks, missing column roles, and conflicting settings. A person could edit or reject the plan before APPFL sends the same approved configuration to every client. For an existing APPFL check, the adapter could fill in the data-readiness configuration. A check APPFL lacks would be treated as a proposed metric or CADRE module for human review and testing. Generated Python should never be sent to hospitals to run automatically.
-
-Each client would calculate the approved checks on its own data. AIDRIN might run some metrics there too. The server report would say which checks ran, which sites failed, and which tool produced each result. It would not assume that similarly named AIDRIN and APPFL metrics use the same formula. Any summaries sent away from a client would need a separate privacy review.
-
-## Testing the idea
-
-The initial tests include different outcome-column names, unclear column roles, and unsupported suggestions. A useful next step would be to have researchers review those checklists and add descriptions the planner has not seen. Reference reviewers should be separate from the assistant generating the plans.
-
-Once the planning results are useful, integration tests could cover a client that fails while running a check, approval before execution, and whether patient rows appear in planning requests or server reports. A local networked APPFL run could follow the serial version.
-
-A useful first result would show that AIDRIN can suggest reasonable checks, a person can correct the plan, and APPFL can run the approved version without someone hand-editing each client's configuration. That still would not make the system ready for real hospital data.
-
-## Possible division of work
-
-These are suggestions for discussion, not assigned responsibilities:
-
-- I could develop the small prototypes, add synthetic test cases, and document the results and problems that come up.
-- AIDRIN collaborators could advise on using the existing skill and tools, review metric selection, and help identify useful dataset descriptions.
-- APPFL collaborators could advise on the configuration and client-server interfaces, review the adapter, and help decide what belongs in APPFL itself.
-- The collaborators could choose the evaluation cases together, arrange independent review of the reference checklists, and agree on the privacy boundaries before using real data.
-
-## Questions for discussion
-
-Which parts of AIDRIN's skill can work from a limited dataset description? How should custom metric suggestions be reviewed? Where should the planning and approval step fit in APPFL, and what would be a useful first contribution?
-
-This separate repository keeps the early experiments apart from the existing subgroup-calibration contribution while those questions are discussed.
+Next, resolve API access and have researchers independently review the checklists. Then test unseen descriptions before a small APPFL run covering approval and client failures, with checks for possible data leakage. The team would need to agree on privacy boundaries before using real data.

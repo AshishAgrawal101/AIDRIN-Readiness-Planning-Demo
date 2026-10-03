@@ -1,24 +1,25 @@
 # AIDRIN readiness planning demo
 
-This demo tests whether an assistant can choose readiness checks from synthetic dataset descriptions. It does not run those checks or connect them to APPFL yet.
+This demo asks Gemini to choose readiness checks from synthetic dataset descriptions using AIDRIN's official skill and metric catalogue, then validates the suggestions and compares them with saved checklists.
 
-`gemini_planner.py` asks Gemini to suggest checks using AIDRIN's official instructions and metric catalogue. The code validates metric names, arguments, and confirmed column roles, then compares each plan with a saved checklist. The original eight Codex-written plans are also kept as worked examples.
+It only produces plans. No metrics run, and APPFL integration is still proposed. Every plan needs human review.
+
+The [live test](RESULTS.md) had 36 attempts: five plans returned, four checklist matches, and 31 API errors. There aren't enough results to judge reliability. The checklists were written by Codex, fixed before generation, and withheld from Gemini. They still need independent review.
 
 ## Run
 
+Use Python 3.10 or newer. Review the eight original Codex-written examples without extra packages or an API key:
+
 ```bash
 python planning_demo.py
-python planning_demo.py --case unclear_target
 python -m unittest -v
 ```
 
-Use Python 3.10 or newer. No extra packages or API key are needed to review the saved plans. Results go to `output/planning_review.json`. No readiness checks run.
-
 ## Try Gemini
 
-On GitHub, add a repository secret named `GEMINI_API_KEY` under **Settings > Secrets and variables > Actions**. Paste the key in the **Secret** field, never in a code file. Then open **Actions > Run Gemini planner > Run workflow**. Start with `unclear_target`. The run saves its JSON results as a downloadable artifact. It only runs when you click the button.
+On GitHub, add `GEMINI_API_KEY` under **Settings > Secrets and variables > Actions**, then open **Actions > Run Gemini planner**. Select `extended` and `all` to try twelve descriptions. Never put the key in code.
 
-To run it locally instead:
+Or run locally:
 
 ```bash
 pip install aidrin==2026.9.1
@@ -26,12 +27,8 @@ python gemini_planner.py --dry-run
 python gemini_planner.py
 ```
 
-The dry run saves the prompt without an API call. The next command asks for a Gemini key in a hidden terminal prompt, then generates a plan for `unclear_target`. The key is not saved. Never paste it into GitHub.
+The dry run saves the prompt without calling Gemini. The live run asks privately for a key. Add `--suite extended --case all` for twelve cases. Output goes under `output/`.
 
-Use a [Gemini free-tier key](https://aistudio.google.com/apikey) with billing disabled. These calls send the synthetic description, AIDRIN guidance, and metric catalogue to Google. No real patient data belongs in this demo.
+Use a [free-tier key](https://aistudio.google.com/apikey) with billing disabled and synthetic descriptions only. Prompts go to Google. This uses AIDRIN's guidance, not its native agentic pipeline.
 
-Use `--case all` for the original eight cases, or `--suite extended --case all` for all twelve. On GitHub, select the `extended` suite and `all` case. If AIDRIN is installed elsewhere, use `--skill <path to SKILL.md>`. Plans and review results go to a new folder under `output/`. Invalid plans and API failures are recorded without automatic retries.
-
-This is our Gemini planner using AIDRIN's skill, rather than AIDRIN's native agentic pipeline. APPFL execution is still proposed work. Every plan needs human review.
-
-The [results](RESULTS.md) cover three live runs of twelve descriptions. Checklists were fixed before those runs and were not sent to Gemini, but they were assistant-written and still need independent review. This is a small planning test, not proof of reliability on real datasets. The [project plan](PLAN.md) describes possible shared work with the AIDRIN and APPFL teams.
+The [shared project plan](PLAN.md) describes the proposed APPFL connection.
