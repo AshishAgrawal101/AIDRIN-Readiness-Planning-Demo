@@ -1,0 +1,239 @@
+{
+  "mode": "live_gemini_planning",
+  "created_utc": "20261003T001630546262Z",
+  "requested_model": "gemini-3.8-flash",
+  "suite": "extended",
+  "pause_seconds": 10.0,
+  "github_run_id": "37081351311",
+  "git_commit": "f48db8fe6a53b3eab42f07f0f63d4db30d1b19ae",
+  "aidrin_version": "2026.9.1",
+  "skill_sha256": "1371ba8581dbd4f4920754a0b931a1ea4be8a1fafcaf163f8f9f7d593d3499fb",
+  "cases_sha256": "31f64db59f11354da0179ec3e0c48b8214c6a0f34f0dab38cc485e4037bb84f8",
+  "catalogue_sha256": "dc1f8af247dfcf3af4ddf59fa88c56384c4fa67283db56d8d2a717d4512fe1e9",
+  "calls": [
+    {
+      "case_id": "quality",
+      "prompt_sha256": "6ae2925805958f04a74618991439d15fdd358ded8c428f67474a6c9be9f76037"
+    },
+    {
+      "case_id": "renamed_target",
+      "prompt_sha256": "851216d99edfbdc92b75261f8df3901c07dba9e4072a14b167f8f22dade4ceda"
+    },
+    {
+      "case_id": "unclear_target",
+      "prompt_sha256": "6a81012138669130a2d2ad4019b8d11a8a7b44818a0c087fc772e9ec08b99299"
+    },
+    {
+      "case_id": "group_representation",
+      "prompt_sha256": "4665c25d716a0b74846f91600600f477247b38ded23d8fa9bf620ab873e8d247"
+    },
+    {
+      "case_id": "privacy_roles_missing",
+      "prompt_sha256": "e3dbf738a4a677f4a57790aae0e6a5082e57fd872186d9859603e6333a36c3cb"
+    },
+    {
+      "case_id": "hourly_sensor",
+      "prompt_sha256": "4bcfc97c479486480d577fa47bf3902961b0d3f559dbbc0e3fcba99428576743"
+    },
+    {
+      "case_id": "unsupported_calibration",
+      "prompt_sha256": "e8fbf4f8442e0f6773fa541f351a9564b3e875a646cced0b59fc3ba65bba8289"
+    },
+    {
+      "case_id": "image_manifest",
+      "prompt_sha256": "863973f81cb66bbf9784e80d902ef0e7a1ae7e37753d6b10be952791b2589459"
+    },
+    {
+      "case_id": "subscription_target",
+      "prompt_sha256": "f6545c950e0e62f11df782723b2287ee3d91d454c343bd24a7deaef0932e90c9"
+    },
+    {
+      "case_id": "unconfirmed_demographic",
+      "prompt_sha256": "6e3dfba51ba8ca6fe616e3f040f4de663031895b022cb8f2acc41d1ff6790365"
+    },
+    {
+      "case_id": "daily_sensor",
+      "prompt_sha256": "451fcf85d243f34aca2e777256eaf8edcf1480dbfcaed9625e191ce9b558b75b"
+    },
+    {
+      "case_id": "renamed_manifest",
+      "prompt_sha256": "833326b80c39f8bb7502249126ef3b9917d106ea465b85dcaebb4c70f88a2cbe"
+    }
+  ],
+  "failures": [
+    {
+      "case_id": "quality",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "renamed_target",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "unclear_target",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "group_representation",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "privacy_roles_missing",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "hourly_sensor",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "unsupported_calibration",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "image_manifest",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "subscription_target",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "unconfirmed_demographic",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "daily_sensor",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    },
+    {
+      "case_id": "renamed_manifest",
+      "stage": "api",
+      "error": "Gemini quota reached; check AI Studio and try later"
+    }
+  ],
+  "metrics_executed": false,
+  "human_approval_required": true,
+  "inputs": "bundled synthetic metadata, skill and catalogue",
+  "reference_answers_in_prompts": false,
+  "limitations": [
+    "Not AIDRIN's native agentic pipeline or an APPFL integration.",
+    "References are assistant-authored and have not had independent review.",
+    "Free-tier eligibility and billing must be checked in Google AI Studio."
+  ],
+  "results": [
+    {
+      "case_id": "quality",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "renamed_target",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "unclear_target",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "group_representation",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "privacy_roles_missing",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "hourly_sensor",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "unsupported_calibration",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "image_manifest",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "subscription_target",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "unconfirmed_demographic",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "daily_sensor",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    },
+    {
+      "case_id": "renamed_manifest",
+      "matched": false,
+      "problems": [
+        "missing suggestion"
+      ]
+    }
+  ],
+  "reference_sha256": "3101a80e3a863c73b189eaf4062bcec096151df801d536133f26c00980f55cfb",
+  "evaluation_setup": {
+    "created_date": "2026-10-02",
+    "model": "gemini-3.8-flash",
+    "planned_runs": 3,
+    "case_count": 12,
+    "planned_attempts": 36,
+    "reference_author": "Codex assistant in the project conversation",
+    "independent_human_review": false,
+    "reference_answers_supplied_to_gemini": false,
+    "checklists_fixed_before_batch_generation": true,
+    "scoring": "Required checks, status, clarification roles, prohibited checks, unsupported-request identifiers, and selected arguments must match. Column-list order does not matter. Optional extra checks are not exhaustively graded.",
+    "api_failures": "Count separately from rejected plans and checklist mismatches. Do not silently replace failed attempts.",
+    "inputs": "Synthetic descriptions only, with supplied schema and confirmed roles. No real datasets or patient rows.",
+    "files_sha256": {
+      "new_cases.json": "7b4fb939f7b781f863f9cb76eaba5ba6504b4b3e7df5ba727a9de3b8357aca15",
+      "new_reference.json": "e5e5082c12a4b264617f759330eecdffc052a8ad9a0e2f1d4f20a0cf0d60880b"
+    }
+  }
+}

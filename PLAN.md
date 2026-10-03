@@ -6,7 +6,7 @@ This is a starting proposal for discussion with the AIDRIN and APPFL teams. It d
 
 ## Current demo
 
-The [planning demonstration](README.md) includes saved AIDRIN-guided suggestions for eight synthetic descriptions and a Gemini planner that can generate new suggestions at runtime. The new runner validates plans and compares them with the example checklists. It does not run metrics or create APPFL configurations. The live API path still needs a run with a configured key.
+The [planning demonstration](README.md) uses Gemini with AIDRIN's official skill and metric catalogue to suggest checks for synthetic dataset descriptions. The runner validates plans and compares them with checklists fixed before generation. The [results](RESULTS.md) record three live runs across twelve descriptions, including API failures and rejected plans. It does not run metrics or create APPFL configurations.
 
 The same assistant session produced the saved plans and reference checklists, so the original recording is an unblinded worked example. Independently reviewed references are still needed before reporting planner accuracy. The Gemini runner reads those references only after generation, but they have not been reviewed by a separate researcher.
 
@@ -22,7 +22,7 @@ Each client would calculate the approved checks on its own data. AIDRIN might ru
 
 ## Testing the idea
 
-The first evaluation could compare the assistant's suggested plans with researcher-reviewed checklists for several synthetic datasets. The tests should include different outcome-column names, an unclear outcome column, and unsupported suggestions. Reference reviewers should be separate from the assistant generating the plans.
+The initial tests include different outcome-column names, unclear column roles, and unsupported suggestions. A useful next step would be to have researchers review those checklists and add descriptions the planner has not seen. Reference reviewers should be separate from the assistant generating the plans.
 
 Once the planning results are useful, integration tests could cover a client that fails while running a check, approval before execution, and whether patient rows appear in planning requests or server reports. A local networked APPFL run could follow the serial version.
 

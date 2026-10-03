@@ -1,0 +1,110 @@
+[
+  {
+    "case_id": "unclear_target",
+    "status": "needs_clarification",
+    "approval_required": true,
+    "checks": [
+      {
+        "metric": "completeness",
+        "arguments": {},
+        "reason": "Baseline check to evaluate missingness across all dataset features."
+      },
+      {
+        "metric": "duplicity",
+        "arguments": {},
+        "reason": "Baseline check to identify identical row duplicates in the dataset."
+      },
+      {
+        "metric": "outliers",
+        "arguments": {},
+        "reason": "Baseline check to evaluate numerical outlier proportions in age and bmi."
+      }
+    ],
+    "questions": [
+      {
+        "role": "target",
+        "question": "Which column ('outcome' or 'event') is the intended binary prediction target, and should the other column be included as an input feature or excluded?"
+      }
+    ],
+    "unsupported_requests": [],
+    "notes": [
+      "Supervised learning metrics such as class-imbalance and feature-relevance require an unambiguous target column and confirmed feature set.",
+      "Data quality baseline metrics (completeness, duplicity, outliers) do not depend on column roles and can run once approved."
+    ]
+  },
+  {
+    "case_id": "unsupported_calibration",
+    "status": "unsupported",
+    "approval_required": true,
+    "checks": [],
+    "questions": [],
+    "unsupported_requests": [
+      "subgroup_ece",
+      "subgroup_brier"
+    ],
+    "notes": [
+      "The requested subgroup ECE (Expected Calibration Error) and subgroup Brier score are not available in AIDRIN's built-in metric catalogue.",
+      "Model calibration and subgroup prediction scoring can be implemented as custom metrics via create_custom_metric."
+    ]
+  },
+  {
+    "case_id": "image_manifest",
+    "status": "proposed",
+    "approval_required": true,
+    "checks": [
+      {
+        "metric": "file-reference-validation",
+        "arguments": {
+          "path-targets": [
+            "image_path"
+          ]
+        },
+        "reason": "Validate that the file references listed in image_path resolve to accessible files on the execution host."
+      }
+    ],
+    "questions": [],
+    "unsupported_requests": [],
+    "notes": [
+      "Per guidance, a focused file-reference validation task excludes the standard baseline metrics and broader readiness checks.",
+      "Relative paths will resolve against the manifest's parent directory on the execution host.",
+      "Target file references are validated against host filesystem presence; underlying image pixel data or metadata quality are not inspected."
+    ]
+  },
+  {
+    "case_id": "daily_sensor",
+    "status": "proposed",
+    "approval_required": true,
+    "checks": [
+      {
+        "metric": "completeness",
+        "arguments": {},
+        "reason": "Baseline data quality assessment to check missing value rates across sensor columns."
+      },
+      {
+        "metric": "duplicity",
+        "arguments": {},
+        "reason": "Baseline data quality assessment to detect duplicate records in the sensor data."
+      },
+      {
+        "metric": "outliers",
+        "arguments": {},
+        "reason": "Baseline data quality assessment to identify anomalous values in numerical readings such as pressure."
+      },
+      {
+        "metric": "temporal-completeness",
+        "arguments": {
+          "timestamp-column": "read_at",
+          "frequency": "D"
+        },
+        "reason": "Evaluate gaps in the daily sensor time series using the confirmed timestamp column and daily frequency."
+      }
+    ],
+    "questions": [],
+    "unsupported_requests": [],
+    "notes": [
+      "Confirmed timestamp column is 'read_at' with an expected daily frequency ('D').",
+      "Zero-argument quality baseline metrics (completeness, duplicity, outliers) are included alongside temporal completeness.",
+      "Awaiting user approval before proceeding to metric execution."
+    ]
+  }
+]

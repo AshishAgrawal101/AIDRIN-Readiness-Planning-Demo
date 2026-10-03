@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "unconfirmed_demographic",
+    "status": "needs_clarification",
+    "approval_required": true,
+    "checks": [
+      {
+        "metric": "completeness",
+        "arguments": {},
+        "reason": "Assess overall and column-level missingness as part of the standard quality baseline."
+      },
+      {
+        "metric": "duplicity",
+        "arguments": {},
+        "reason": "Measure duplicate row frequency across the dataset as part of the quality baseline."
+      },
+      {
+        "metric": "outliers",
+        "arguments": {},
+        "reason": "Detect potential anomalies in numerical features such as age."
+      },
+      {
+        "metric": "class-imbalance",
+        "arguments": {
+          "target-column": "label"
+        },
+        "reason": "Evaluate class distribution balance for the confirmed target column prior to model training."
+      }
+    ],
+    "questions": [
+      {
+        "role": "sensitive_attribute",
+        "question": "Which column (such as region or segment) represents the demographic attribute intended for group comparisons and representation checks?"
+      }
+    ],
+    "unsupported_requests": [],
+    "notes": [
+      "Demographic representation and group rate metrics (e.g., representation-rate and statistical-rates) are deferred until the demographic or sensitive attribute column is confirmed.",
+      "Label has been set as the confirmed target for class-imbalance analysis."
+    ]
+  }
+]

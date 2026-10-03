@@ -1,8 +1,8 @@
 # AIDRIN readiness planning demo
 
-This demo focuses on choosing readiness checks before connecting them to APPFL. It includes eight synthetic dataset descriptions, suggested checks, and questions about unclear column roles.
+This demo tests whether an assistant can choose readiness checks from synthetic dataset descriptions. It does not run those checks or connect them to APPFL yet.
 
-Codex used AIDRIN's official instructions and list of available metrics to write the saved plans. `planning_demo.py` checks their metric names, arguments, and column roles, then compares them with reference checklists. `gemini_planner.py` can ask Gemini for new plans using the same guidance.
+`gemini_planner.py` asks Gemini to suggest checks using AIDRIN's official instructions and metric catalogue. The code validates metric names, arguments, and confirmed column roles, then compares each plan with a saved checklist. The original eight Codex-written plans are also kept as worked examples.
 
 ## Run
 
@@ -30,8 +30,8 @@ The dry run saves the prompt without an API call. The next command asks for a Ge
 
 Use a [Gemini free-tier key](https://aistudio.google.com/apikey) with billing disabled. These calls send the synthetic description, AIDRIN guidance, and metric catalogue to Google. No real patient data belongs in this demo.
 
-Use `--case all` for eight requests or `--model <name>` to choose a supported model. If AIDRIN is installed elsewhere, use `--skill <path to SKILL.md>`. Plans and review results go to a new folder under `output/`. Invalid plans are rejected, and failures are recorded without automatic retries. No readiness checks run.
+Use `--case all` for the original eight cases, or `--suite extended --case all` for all twelve. On GitHub, select the `extended` suite and `all` case. If AIDRIN is installed elsewhere, use `--skill <path to SKILL.md>`. Plans and review results go to a new folder under `output/`. Invalid plans and API failures are recorded without automatic retries.
 
 This is our Gemini planner using AIDRIN's skill, rather than AIDRIN's native agentic pipeline. APPFL execution is still proposed work. Every plan needs human review.
 
-The reference checklists were written by the same assistant that wrote the saved plans. They still need independent review before we can report planner accuracy. The [project plan](PLAN.md) describes the proposed shared work and APPFL integration.
+The [results](RESULTS.md) cover three live runs of twelve descriptions. Checklists were fixed before those runs and were not sent to Gemini, but they were assistant-written and still need independent review. This is a small planning test, not proof of reliability on real datasets. The [project plan](PLAN.md) describes possible shared work with the AIDRIN and APPFL teams.

@@ -1,0 +1,172 @@
+{
+  "model": "gemini-3.8-flash",
+  "case_count": 12,
+  "run_count": 3,
+  "attempts": 36,
+  "matched": 4,
+  "valid_plans": 5,
+  "api_errors": 31,
+  "rejected_plans": 0,
+  "checklist_mismatches": 1,
+  "sources": [
+    {
+      "run_id": "37080801038",
+      "commit": "f48db8fe6a53b3eab42f07f0f63d4db30d1b19ae",
+      "url": "https://github.com/AshishAgrawal101/AIDRIN-Readiness-Planning-Demo/actions/runs/37080801038"
+    },
+    {
+      "run_id": "37081118496",
+      "commit": "f48db8fe6a53b3eab42f07f0f63d4db30d1b19ae",
+      "url": "https://github.com/AshishAgrawal101/AIDRIN-Readiness-Planning-Demo/actions/runs/37081118496"
+    },
+    {
+      "run_id": "37081351311",
+      "commit": "f48db8fe6a53b3eab42f07f0f63d4db30d1b19ae",
+      "url": "https://github.com/AshishAgrawal101/AIDRIN-Readiness-Planning-Demo/actions/runs/37081351311"
+    }
+  ],
+  "per_case": [
+    {
+      "case_id": "quality",
+      "matched": 0,
+      "valid_plans": 0,
+      "api_errors": 3,
+      "rejected_plans": 0,
+      "metric_sets": [],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "renamed_target",
+      "matched": 0,
+      "valid_plans": 0,
+      "api_errors": 3,
+      "rejected_plans": 0,
+      "metric_sets": [],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "unclear_target",
+      "matched": 1,
+      "valid_plans": 1,
+      "api_errors": 2,
+      "rejected_plans": 0,
+      "metric_sets": [
+        [
+          "completeness",
+          "duplicity",
+          "outliers"
+        ]
+      ],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "group_representation",
+      "matched": 0,
+      "valid_plans": 0,
+      "api_errors": 3,
+      "rejected_plans": 0,
+      "metric_sets": [],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "privacy_roles_missing",
+      "matched": 0,
+      "valid_plans": 0,
+      "api_errors": 3,
+      "rejected_plans": 0,
+      "metric_sets": [],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "hourly_sensor",
+      "matched": 0,
+      "valid_plans": 0,
+      "api_errors": 3,
+      "rejected_plans": 0,
+      "metric_sets": [],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "unsupported_calibration",
+      "matched": 0,
+      "valid_plans": 1,
+      "api_errors": 2,
+      "rejected_plans": 0,
+      "metric_sets": [
+        []
+      ],
+      "checklist_mismatches": 1
+    },
+    {
+      "case_id": "image_manifest",
+      "matched": 1,
+      "valid_plans": 1,
+      "api_errors": 2,
+      "rejected_plans": 0,
+      "metric_sets": [
+        [
+          "file-reference-validation"
+        ]
+      ],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "subscription_target",
+      "matched": 0,
+      "valid_plans": 0,
+      "api_errors": 3,
+      "rejected_plans": 0,
+      "metric_sets": [],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "unconfirmed_demographic",
+      "matched": 1,
+      "valid_plans": 1,
+      "api_errors": 2,
+      "rejected_plans": 0,
+      "metric_sets": [
+        [
+          "class-imbalance",
+          "completeness",
+          "duplicity",
+          "outliers"
+        ]
+      ],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "daily_sensor",
+      "matched": 1,
+      "valid_plans": 1,
+      "api_errors": 2,
+      "rejected_plans": 0,
+      "metric_sets": [
+        [
+          "completeness",
+          "duplicity",
+          "outliers",
+          "temporal-completeness"
+        ]
+      ],
+      "checklist_mismatches": 0
+    },
+    {
+      "case_id": "renamed_manifest",
+      "matched": 0,
+      "valid_plans": 0,
+      "api_errors": 3,
+      "rejected_plans": 0,
+      "metric_sets": [],
+      "checklist_mismatches": 0
+    }
+  ],
+  "limitations": [
+    "Small synthetic-description test, not evidence of general reliability on real datasets.",
+    "Checklists were assistant-authored and fixed before the batch runs, without independent human review.",
+    "Reference answers were withheld from Gemini. The skill and schema constrain its choices.",
+    "Only selected arguments and prohibited checks are graded; optional extra checks and explanation quality need review.",
+    "Repeated runs use the same descriptions, not distinct datasets.",
+    "No readiness metrics or APPFL execution took place."
+  ]
+}

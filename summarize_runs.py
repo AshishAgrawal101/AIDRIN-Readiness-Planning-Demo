@@ -66,7 +66,7 @@ def summarize(runs, cases, references, catalogue):
             "Checklists were assistant-authored and fixed before the batch runs, without independent human review.",
             "Reference answers were withheld from Gemini. The skill and schema constrain its choices.",
             "Only selected arguments and prohibited checks are graded; optional extra checks and explanation quality need review.",
-            "Three runs of the same descriptions are repeated measurements, not 36 distinct datasets.",
+            "Repeated runs use the same descriptions, not distinct datasets.",
             "No readiness metrics or APPFL execution took place.",
         ],
     }
