@@ -3,6 +3,13 @@ name: Run Gemini planner
 on:
   workflow_dispatch:
     inputs:
+      suite:
+        description: Eight original descriptions, or twelve with the new cases
+        type: choice
+        default: examples
+        options:
+          - examples
+          - extended
       case:
         description: Synthetic case to try
         type: choice
@@ -16,6 +23,10 @@ on:
           - hourly_sensor
           - unsupported_calibration
           - image_manifest
+          - subscription_target
+          - unconfirmed_demographic
+          - daily_sensor
+          - renamed_manifest
           - all
       model:
         description: Gemini model available on your free tier
@@ -28,7 +39,7 @@ permissions:
 jobs:
   plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Check out code
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -47,19 +58,18 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           CASE_ID: ${{ inputs.case }}
           MODEL: ${{ inputs.model }}
+          SUITE: ${{ inputs.suite }}
         run: |
           if [ -z "$GEMINI_API_KEY" ]; then
             echo "Add the GEMINI_API_KEY repository secret under Settings > Secrets and variables > Actions."
             exit 1
           fi
-          python gemini_planner.py --case "$CASE_ID" --model "$MODEL" --output-dir output/github-run
+          python gemini_planner.py --case "$CASE_ID" --suite "$SUITE" --model "$MODEL" --pause-seconds 10 --output-dir output/github-run
       - name: Save the result
         if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: gemini-plan-${{ github.run_id }}
-          path: |
-            output/github-run/suggestions.json
-            output/github-run/review.json
+          path: output/github-run/
           if-no-files-found: ignore
           retention-days: 7

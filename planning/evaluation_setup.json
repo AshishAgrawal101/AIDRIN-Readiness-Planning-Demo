@@ -1,0 +1,18 @@
+{
+  "created_date": "2026-10-02",
+  "model": "gemini-3.8-flash",
+  "planned_runs": 3,
+  "case_count": 12,
+  "planned_attempts": 36,
+  "reference_author": "Codex assistant in the project conversation",
+  "independent_human_review": false,
+  "reference_answers_supplied_to_gemini": false,
+  "checklists_fixed_before_batch_generation": true,
+  "scoring": "Required checks, status, clarification roles, prohibited checks, unsupported-request identifiers, and selected arguments must match. Column-list order does not matter. Optional extra checks are not exhaustively graded.",
+  "api_failures": "Count separately from rejected plans and checklist mismatches. Do not silently replace failed attempts.",
+  "inputs": "Synthetic descriptions only, with supplied schema and confirmed roles. No real datasets or patient rows.",
+  "files_sha256": {
+    "new_cases.json": "7b4fb939f7b781f863f9cb76eaba5ba6504b4b3e7df5ba727a9de3b8357aca15",
+    "new_reference.json": "e5e5082c12a4b264617f759330eecdffc052a8ad9a0e2f1d4f20a0cf0d60880b"
+  }
+}

@@ -11,6 +11,7 @@ from urllib.error import HTTPError, URLError
 
 from gemini_planner import (
     ENDPOINT, NoRedirect, call_gemini, get_api_key, main, parse_plan, plan_schema,
+    suite_cases, suite_references,
 )
 from planning_demo import ROOT, file_digest, metric_map, read_json
 
@@ -183,8 +184,19 @@ class GeminiTests(unittest.TestCase):
                 self.assertEqual(main(["--skill", str(skill), "--output-dir", str(root / "run")]), 1)
             record = read_json(root / "run" / "review.json")
             self.assertEqual(record["failures"][0]["error"], "quota reached")
+            self.assertEqual(record["failures"][0]["stage"], "api")
             self.assertFalse(record["results"][0]["matched"])
             self.assertEqual(read_json(root / "run" / "suggestions.json"), [])
+
+    def test_extended_suite_has_fixed_references_for_twelve_cases(self):
+        cases = suite_cases("extended")
+        references = suite_references("extended")
+        self.assertEqual(len(cases), 12)
+        self.assertEqual({case["id"] for case in cases}, set(references))
+
+    def test_existing_suite_is_unchanged(self):
+        self.assertEqual(len(suite_cases("examples")), 8)
+        self.assertEqual(len(suite_references("examples")), 8)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "subscription_target",
+    "intent": "Assess a synthetic table for training a binary subscription-renewal classifier.",
+    "columns": {"monthly_usage": "numeric", "tenure_months": "numeric", "plan_type": "categorical", "renewed": "binary"},
+    "description": "The user confirms renewed as the target. Monthly usage, tenure, and plan type are the only candidate features. No customer rows are included.",
+    "confirmed_roles": {"target": "renewed"}
+  },
+  {
+    "id": "unconfirmed_demographic",
+    "intent": "Check outcome-label balance and demographic representation before training on a synthetic table.",
+    "columns": {"age": "numeric", "region": "categorical", "segment": "categorical", "label": "binary"},
+    "description": "The user confirms label as the target, but has not identified the demographic attribute. Region and segment have ambiguous meanings and neither has been confirmed for group comparisons.",
+    "confirmed_roles": {"target": "label"}
+  },
+  {
+    "id": "daily_sensor",
+    "intent": "Check for gaps in daily readings from synthetic equipment data.",
+    "columns": {"read_at": "datetime", "pressure": "numeric"},
+    "description": "Readings should arrive once per day. The user confirms read_at as the timestamp. This is a daily series, not an hourly one.",
+    "confirmed_roles": {"timestamp": "read_at"},
+    "confirmed_settings": {"frequency": "D"}
+  },
+  {
+    "id": "renamed_manifest",
+    "intent": "Only validate the file references in a synthetic scan manifest. Do not inspect the images or run other quality checks.",
+    "columns": {"scan_file": "path", "category": "categorical"},
+    "description": "The user confirms scan_file as the only path column. Relative references use the manifest directory on the execution host. No files or image pixels are sent to the planner.",
+    "confirmed_roles": {"path_targets": ["scan_file"]}
+  }
+]

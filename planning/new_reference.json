@@ -1,0 +1,31 @@
+{
+  "subscription_target": {
+    "status": "proposed",
+    "required_metrics": ["completeness", "duplicity", "outliers", "class-imbalance", "feature-relevance", "correlations"],
+    "required_questions": [],
+    "expected_arguments": {
+      "class-imbalance": {"target-column": "renewed"},
+      "feature-relevance": {"target-column": "renewed", "categorical-columns": ["plan_type"], "numerical-columns": ["monthly_usage", "tenure_months"]}
+    }
+  },
+  "unconfirmed_demographic": {
+    "status": "needs_clarification",
+    "required_metrics": ["completeness", "duplicity", "outliers", "class-imbalance"],
+    "required_questions": ["sensitive_attribute"],
+    "forbidden_metrics": ["statistical-rates", "representation-rate"],
+    "expected_arguments": {"class-imbalance": {"target-column": "label"}}
+  },
+  "daily_sensor": {
+    "status": "proposed",
+    "required_metrics": ["completeness", "duplicity", "outliers", "temporal-completeness"],
+    "required_questions": [],
+    "expected_arguments": {"temporal-completeness": {"timestamp-column": "read_at", "frequency": "D"}}
+  },
+  "renamed_manifest": {
+    "status": "proposed",
+    "required_metrics": ["file-reference-validation"],
+    "allowed_metrics": ["file-reference-validation"],
+    "required_questions": [],
+    "expected_arguments": {"file-reference-validation": {"path-targets": ["scan_file"]}}
+  }
+}

@@ -60,6 +60,11 @@ class PlanningTests(unittest.TestCase):
         plan["checks"] = [check for check in plan["checks"] if check["metric"] != "class-imbalance"]
         self.assertIn("missing metrics: class-imbalance", compare(plan, self.references["renamed_target"]))
 
+    def test_feature_column_order_does_not_change_match(self):
+        plan, _ = self.pair()
+        plan["checks"][4]["arguments"]["numerical-columns"].reverse()
+        self.assertEqual(compare(plan, self.references["renamed_target"]), [])
+
     def test_cannot_guess_an_existing_target_column(self):
         plan, case = self.pair("unclear_target")
         plan["checks"].append({"metric": "class-imbalance", "arguments": {"target-column": "outcome"}, "reason": "guess"})

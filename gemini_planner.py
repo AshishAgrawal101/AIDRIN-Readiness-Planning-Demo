@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import time
 from urllib import error, request
 
 from planning_demo import (
@@ -100,6 +101,15 @@ def call_gemini(payload, api_key):
 
 
 def parse_plan(response, case, catalogue):
+    text = response_text(response)
+    try:
+        plan = json.loads(text, object_pairs_hook=unique_fields, parse_constant=reject_constant)
+    except (ValueError, TypeError):
+        raise ValueError("Gemini did not return a valid JSON plan") from None
+    return validate_suggestion(plan, case, catalogue)
+
+
+def response_text(response):
     if not isinstance(response, dict) or response.get("status") != "completed":
         raise ValueError("Gemini did not complete the request")
     steps = response.get("steps", [])
@@ -112,12 +122,7 @@ def parse_plan(response, case, catalogue):
     if not isinstance(parts, list) or not parts or any(not isinstance(part, dict) or part.get("type") != "text" or
                         not isinstance(part.get("text"), str) for part in parts):
         raise ValueError("Gemini did not return a text plan")
-    text = "".join(part["text"] for part in parts)
-    try:
-        plan = json.loads(text, object_pairs_hook=unique_fields, parse_constant=reject_constant)
-    except (ValueError, TypeError):
-        raise ValueError("Gemini did not return a valid JSON plan") from None
-    return validate_suggestion(plan, case, catalogue)
+    return "".join(part["text"] for part in parts)
 
 
 def unique_fields(pairs):
@@ -152,9 +157,26 @@ def get_api_key():
     return key
 
 
+def suite_cases(suite):
+    cases = read_json(ROOT / "cases.json")
+    if suite == "extended":
+        verify_recording(read_json(ROOT / "evaluation_setup.json"), ROOT)
+        cases += read_json(ROOT / "new_cases.json")
+    return cases
+
+
+def suite_references(suite):
+    references = read_json(ROOT / "reference.json")
+    if suite == "extended":
+        references.update(read_json(ROOT / "new_reference.json"))
+    return references
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--case", default="unclear_target", help="case ID, or all for eight API calls")
+    parser.add_argument("--case", default="unclear_target", help="case ID, or all for the selected suite")
+    parser.add_argument("--suite", choices=["examples", "extended"], default="examples")
+    parser.add_argument("--pause-seconds", type=float, default=0, help="delay between API requests")
     parser.add_argument("--model", default=DEFAULT_MODEL)
     parser.add_argument("--skill", type=Path)
     parser.add_argument("--output-dir", type=Path)
@@ -163,8 +185,10 @@ def main(argv=None):
     try:
         if not re.fullmatch(r"[a-zA-Z0-9._-]+", args.model):
             raise ValueError("invalid model name")
+        if not 0 <= args.pause_seconds <= 30:
+            raise ValueError("pause must be between 0 and 30 seconds")
         verify_recording(read_json(ROOT / "provenance.json"), ROOT, include_suggestions=False)
-        cases = read_json(ROOT / "cases.json")
+        cases = suite_cases(args.suite)
         if args.case != "all":
             cases = [case for case in cases if case["id"] == args.case]
         if not cases:
@@ -180,11 +204,13 @@ def main(argv=None):
         destination.mkdir(parents=True, exist_ok=False)
         catalogue = metric_map(snapshot)
         suggestions, failures, calls = [], [], []
-        for case in cases:
+        for index, case in enumerate(cases):
             prompt = build_prompt(case, snapshot, instructions)
             (destination / (case["id"] + "_prompt.txt")).write_text(prompt, encoding="utf-8")
             if args.dry_run:
                 continue
+            if index and args.pause_seconds:
+                time.sleep(args.pause_seconds)
             print(f"Requesting plan: {case['id']}", flush=True)
             payload = {
                 "model": args.model, "input": prompt, "store": False,
@@ -196,14 +222,24 @@ def main(argv=None):
             call = {"case_id": case["id"], "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest()}
             try:
                 response = call_gemini(payload, api_key)
-                suggestions.append(parse_plan(response, case, catalogue))
-                call.update({"model": response.get("model", args.model), "usage": response.get("usage", {})})
             except ValueError as exc:
-                failures.append({"case_id": case["id"], "error": str(exc)})
+                failures.append({"case_id": case["id"], "stage": "api", "error": str(exc)})
+            else:
+                if isinstance(response, dict):
+                    call.update({"model": response.get("model", args.model), "usage": response.get("usage", {})})
+                try:
+                    text = response_text(response)
+                    (destination / (case["id"] + "_response.txt")).write_text(text, encoding="utf-8")
+                    suggestions.append(parse_plan(response, case, catalogue))
+                except ValueError as exc:
+                    failures.append({"case_id": case["id"], "stage": "plan", "error": str(exc)})
             calls.append(call)
         record = {
             "mode": "prompt_preview" if args.dry_run else "live_gemini_planning",
             "created_utc": stamp, "requested_model": args.model,
+            "suite": args.suite, "pause_seconds": args.pause_seconds,
+            "github_run_id": os.environ.get("GITHUB_RUN_ID"),
+            "git_commit": os.environ.get("GITHUB_SHA"),
             "aidrin_version": snapshot["aidrin_version"], "skill_sha256": file_digest(skill),
             "cases_sha256": file_digest(ROOT / "cases.json"),
             "catalogue_sha256": file_digest(ROOT / "catalogue.json"),
@@ -215,7 +251,10 @@ def main(argv=None):
                             "Free-tier eligibility and billing must be checked in Google AI Studio."],
         }
         if not args.dry_run:
-            record["results"] = evaluate(cases, suggestions, read_json(ROOT / "reference.json"), catalogue)
+            record["results"] = evaluate(cases, suggestions, suite_references(args.suite), catalogue)
+            record["reference_sha256"] = file_digest(ROOT / "reference.json")
+            if args.suite == "extended":
+                record["evaluation_setup"] = read_json(ROOT / "evaluation_setup.json")
             (destination / "suggestions.json").write_text(json.dumps(suggestions, indent=2) + "\n", encoding="utf-8")
         (destination / "review.json").write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
         print(f"Saved to {destination.resolve()}")
